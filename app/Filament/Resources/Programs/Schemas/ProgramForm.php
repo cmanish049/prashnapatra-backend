@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Programs\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -15,6 +16,11 @@ class ProgramForm
                     ->required(),
                 TextInput::make('abbreviation')
                     ->required(),
+                Select::make('universities')
+                    ->relationship('universities', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->searchable(),
             ]);
     }
 }

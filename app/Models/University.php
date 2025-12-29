@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
@@ -26,4 +27,12 @@ class University extends Model
      * @var list<string>
      */
     public $guarded = [];
+
+    public function programs(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Program::class,
+            'programs_universities'
+        );
+    }
 }
