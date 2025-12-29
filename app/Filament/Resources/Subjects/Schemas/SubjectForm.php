@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Subjects\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -25,12 +26,16 @@ class SubjectForm
                 TextInput::make('syllabus_url')
                     ->url()
                     ->required(),
-                TextInput::make('university_id')
+                Select::make('university_id')
+                    ->relationship('university', 'name')
                     ->required()
-                    ->numeric(),
-                TextInput::make('program_id')
+                    ->preload()
+                    ->searchable(),
+                Select::make('program_id')
+                    ->relationship('program', 'name')
                     ->required()
-                    ->numeric(),
+                    ->preload()
+                    ->searchable(),
             ]);
     }
 }

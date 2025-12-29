@@ -26,12 +26,12 @@ class SubjectsTable
                     ->sortable(),
                 TextColumn::make('syllabus_url')
                     ->searchable(),
-                TextColumn::make('university_id')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('program_id')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('university.name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('program.abbreviation')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
