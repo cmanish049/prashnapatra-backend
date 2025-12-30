@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Program;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Program>
+ * @extends Factory<Program>
  */
 class ProgramFactory extends Factory
 {
@@ -17,7 +18,8 @@ class ProgramFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->words(3, true),
+            'abbreviation' => fake()->lexify('???'),
         ];
     }
 }

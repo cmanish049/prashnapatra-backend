@@ -1,0 +1,167 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "OldIsGold API",
+    "description": "API documentation for OldIsGold application",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/api/v1",
+      "description": "API v1"
+    }
+  ],
+  "paths": {
+    "/universities": {
+      "get": {
+        "tags": ["Universities"],
+        "summary": "List all universities",
+        "description": "Returns a list of all universities",
+        "operationId": "listUniversities",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "error": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/University"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/universities/{universityId}/programs": {
+      "get": {
+        "tags": ["Programs"],
+        "summary": "List programs for a university",
+        "description": "Returns a list of programs associated with a specific university",
+        "operationId": "listUniversityPrograms",
+        "parameters": [
+          {
+            "name": "universityId",
+            "in": "path",
+            "description": "ID of the university",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "error": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Program"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "University not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "University": {
+        "type": "object",
+        "properties": {
+          "university_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Tribhuvan University"
+          },
+          "label": {
+            "type": "string",
+            "example": "tu"
+          }
+        }
+      },
+      "Program": {
+        "type": "object",
+        "properties": {
+          "program_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Bachelor of Computer Science"
+          },
+          "abbreviation": {
+            "type": "string",
+            "example": "BCS"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "error"
+          },
+          "error": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "University not found"
+          }
+        }
+      }
+    }
+  }
+}

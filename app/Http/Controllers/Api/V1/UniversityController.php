@@ -5,17 +5,19 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\UniversityResource;
 use App\Models\University;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class UniversityController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function __invoke(): JsonResponse
     {
-        return UniversityResource::collection(
-            University::all()
-        );
+        return response()->json([
+            'status' => 'success',
+            'error' => false,
+            'data' => UniversityResource::collection(University::all()),
+        ]);
     }
 }
