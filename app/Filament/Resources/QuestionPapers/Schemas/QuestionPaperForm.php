@@ -2,7 +2,12 @@
 
 namespace App\Filament\Resources\QuestionPapers\Schemas;
 
+use App\Models\Subject;
+use App\Models\University;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 
 class QuestionPaperForm
@@ -11,23 +16,82 @@ class QuestionPaperForm
     {
         return $schema
             ->components([
-                TextInput::make('subject_id')
+                Select::make('university_id')
+                    ->label('University')
+                    ->options(University::query()->pluck('name', 'id'))
                     ->required()
-                    ->numeric(),
-                TextInput::make('university_id')
+                    ->live()
+                    ->afterStateUpdated(function (Set $set) {
+                        $set('program_id', null);
+                        $set('semester', null);
+                        $set('subject_id', null);
+                    }),
+
+                Select::make('program_id')
+                    ->label('Program')
+                    ->options(function (Get $get) {
+                        $universityId = $get('university_id');
+                        if (! $universityId) {
+                            return [];
+                        }
+
+                        return University::query()->find($universityId)
+                            ?->programs()
+                            ->pluck('programs.name', 'programs.id') ?? [];
+                    })
                     ->required()
-                    ->numeric(),
-                TextInput::make('program_id')
+                    ->live()
+                    ->disabled(fn (Get $get) => ! $get('university_id'))
+                    ->afterStateUpdated(function (Set $set) {
+                        $set('semester', null);
+                        $set('subject_id', null);
+                    }),
+
+                Select::make('semester')
+                    ->options(function (Get $get) {
+                        $universityId = $get('university_id');
+                        $programId = $get('program_id');
+                        if (! $universityId || ! $programId) {
+                            return [];
+                        }
+
+                        return Subject::query()
+                            ->where('university_id', $universityId)
+                            ->where('program_id', $programId)
+                            ->distinct()
+                            ->pluck('semester', 'semester')
+                            ->mapWithKeys(fn ($value) => [$value => "Semester $value"])
+                            ->toArray();
+                    })
                     ->required()
-                    ->numeric(),
-                TextInput::make('semester')
+                    ->live()
+                    ->disabled(fn (Get $get) => ! $get('program_id'))
+                    ->afterStateUpdated(fn (Set $set) => $set('subject_id', null)),
+
+                Select::make('subject_id')
+                    ->label('Subject')
+                    ->options(function (Get $get) {
+                        $universityId = $get('university_id');
+                        $programId = $get('program_id');
+                        $semester = $get('semester');
+                        if (! $universityId || ! $programId || ! $semester) {
+                            return [];
+                        }
+
+                        return Subject::query()
+                            ->where('university_id', $universityId)
+                            ->where('program_id', $programId)
+                            ->where('semester', $semester)
+                            ->pluck('name', 'id');
+                    })
                     ->required()
-                    ->numeric(),
+                    ->disabled(fn (Get $get) => ! $get('semester')),
+
+                TextInput::make('year')
+                    ->required(),
                 TextInput::make('file_path'),
                 TextInput::make('file_url')
                     ->url(),
-                TextInput::make('year')
-                    ->required(),
             ]);
     }
 }

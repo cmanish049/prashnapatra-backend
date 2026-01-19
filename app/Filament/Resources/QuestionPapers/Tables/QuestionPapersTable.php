@@ -14,32 +14,28 @@ class QuestionPapersTable
     {
         return $table
             ->columns([
-                TextColumn::make('subject_id')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('university_id')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('program_id')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('university.name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('program.name')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('semester')
-                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('subject.name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('year')
                     ->sortable(),
                 TextColumn::make('file_path')
-                    ->searchable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('file_url')
-                    ->searchable(),
-                TextColumn::make('year'),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

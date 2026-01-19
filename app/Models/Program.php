@@ -26,6 +26,9 @@ class Program extends Model
      */
     public $guarded = [];
 
+    /**
+     * @return BelongsToMany
+     */
     public function universities(): BelongsToMany
     {
         return $this->belongsToMany(

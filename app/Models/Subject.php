@@ -31,11 +31,17 @@ class Subject extends Model
      */
     protected $guarded = [];
 
+    /**
+     * @return BelongsTo
+     */
     public function university(): BelongsTo
     {
         return $this->belongsTo(University::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function program(): BelongsTo
     {
         return $this->belongsTo(Program::class);

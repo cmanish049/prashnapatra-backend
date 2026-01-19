@@ -2,10 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Program;
+use App\Models\Subject;
+use App\Models\University;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Subject>
+ * @extends Factory<Subject>
  */
 class SubjectFactory extends Factory
 {
@@ -17,7 +20,13 @@ class SubjectFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->words(3, true),
+            'university_id' => University::factory(),
+            'program_id' => Program::factory(),
+            'semester' => fake()->numberBetween(1, 8),
+            'credit' => fake()->numberBetween(1, 5),
+            'code' => strtoupper(fake()->lexify('???')) . fake()->numerify('###'),
+            'syllabus_url' => fake()->url(),
         ];
     }
 }
