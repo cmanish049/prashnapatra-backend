@@ -6,10 +6,10 @@ A question paper management system backend built with Laravel 12 and Filament v4
 
 - PHP 8.5+
 - Laravel 12
-- Filament v4 (Admin Panel)
-- Livewire v3
+- Filament v5 (Admin Panel)
+- Livewire v4
 - Tailwind CSS v4
-- Pest (Testing)
+- Pest v4 (Testing)
 
 ## Data Models
 

@@ -6,7 +6,7 @@ use App\Models\University;
 test('it returns empty list when university has no programs', function () {
     $university = University::factory()->create();
 
-    $response = $this->getJson("/api/v1/universities/{$university->id}/programs");
+    $response = $this->getJson(route('api.v1.universities.programs.index', $university));
 
     $response->assertSuccessful()
         ->assertJson([
@@ -21,7 +21,7 @@ test('it can list programs for a university', function () {
     $program = Program::factory()->create();
     $university->programs()->attach($program);
 
-    $response = $this->getJson("/api/v1/universities/{$university->id}/programs");
+    $response = $this->getJson(route('api.v1.universities.programs.index', $university));
 
     $response->assertSuccessful()
         ->assertJson([
@@ -37,7 +37,7 @@ test('it can list programs for a university', function () {
 });
 
 test('it returns 404 for non-existent university', function () {
-    $response = $this->getJson('/api/v1/universities/999/programs');
+    $response = $this->getJson(route('api.v1.universities.programs.index', ['universityId' => 999]));
 
     $response->assertNotFound()
         ->assertJson([
@@ -57,7 +57,7 @@ test('it only returns programs associated with the specified university', functi
     $university1->programs()->attach($program1);
     $university2->programs()->attach($program2);
 
-    $response = $this->getJson("/api/v1/universities/{$university1->id}/programs");
+    $response = $this->getJson(route('api.v1.universities.programs.index', $university1));
 
     $response->assertSuccessful()
         ->assertJson([

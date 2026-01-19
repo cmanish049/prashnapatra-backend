@@ -3,7 +3,7 @@
 use App\Models\University;
 
 test('it can fetch empty list of universities', function () {
-    $response = $this->getJson('/api/v1/universities');
+    $response = $this->getJson(route('api.v1.universities.index'));
 
     $response->assertSuccessful()
         ->assertJson([
@@ -16,7 +16,7 @@ test('it can fetch empty list of universities', function () {
 test('it can list universities', function () {
     $university = University::factory()->create();
 
-    $response = $this->getJson('/api/v1/universities');
+    $response = $this->getJson(route('api.v1.universities.index'));
 
     $response->assertSuccessful()
         ->assertJson([
