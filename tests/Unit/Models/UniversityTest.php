@@ -4,14 +4,14 @@ use App\Models\Program;
 use App\Models\University;
 use Illuminate\Database\Eloquent\Collection;
 
-test('university can be created with factory', function () {
+test('university can be created with factory', function (): void {
     $university = University::factory()->create();
 
     expect($university)->toBeInstanceOf(University::class)
         ->and($university->exists)->toBeTrue();
 });
 
-test('university has required attributes', function () {
+test('university has required attributes', function (): void {
     $university = University::factory()->create([
         'name' => 'Tribhuvan University',
         'label' => 'tu',
@@ -21,7 +21,7 @@ test('university has required attributes', function () {
         ->and($university->label)->toBe('tu');
 });
 
-test('university uses soft deletes', function () {
+test('university uses soft deletes', function (): void {
     $university = University::factory()->create();
     $universityId = $university->id;
 
@@ -32,14 +32,14 @@ test('university uses soft deletes', function () {
         ->and(University::withTrashed()->find($universityId))->not->toBeNull();
 });
 
-test('university has programs relationship', function () {
+test('university has programs relationship', function (): void {
     $university = University::factory()->create();
 
     expect($university->programs())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsToMany::class)
         ->and($university->programs)->toBeInstanceOf(Collection::class);
 });
 
-test('university can have many programs', function () {
+test('university can have many programs', function (): void {
     $university = University::factory()->create();
     $programs = Program::factory()->count(3)->create();
 

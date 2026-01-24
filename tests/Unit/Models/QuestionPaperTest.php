@@ -5,14 +5,14 @@ use App\Models\QuestionPaper;
 use App\Models\Subject;
 use App\Models\University;
 
-test('question paper can be created with factory', function () {
+test('question paper can be created with factory', function (): void {
     $questionPaper = QuestionPaper::factory()->create();
 
     expect($questionPaper)->toBeInstanceOf(QuestionPaper::class)
         ->and($questionPaper->exists)->toBeTrue();
 });
 
-test('question paper has required attributes', function () {
+test('question paper has required attributes', function (): void {
     $university = University::factory()->create();
     $program = Program::factory()->create();
     $subject = Subject::factory()->create([
@@ -36,7 +36,7 @@ test('question paper has required attributes', function () {
         ->and($questionPaper->file_url)->toBe('https://example.com/papers/test.pdf');
 });
 
-test('question paper uses soft deletes', function () {
+test('question paper uses soft deletes', function (): void {
     $questionPaper = QuestionPaper::factory()->create();
     $questionPaperId = $questionPaper->id;
 
@@ -47,28 +47,28 @@ test('question paper uses soft deletes', function () {
         ->and(QuestionPaper::withTrashed()->find($questionPaperId))->not->toBeNull();
 });
 
-test('question paper belongs to university', function () {
+test('question paper belongs to university', function (): void {
     $questionPaper = QuestionPaper::factory()->create();
 
     expect($questionPaper->university())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class)
         ->and($questionPaper->university)->toBeInstanceOf(University::class);
 });
 
-test('question paper belongs to program', function () {
+test('question paper belongs to program', function (): void {
     $questionPaper = QuestionPaper::factory()->create();
 
     expect($questionPaper->program())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class)
         ->and($questionPaper->program)->toBeInstanceOf(Program::class);
 });
 
-test('question paper belongs to subject', function () {
+test('question paper belongs to subject', function (): void {
     $questionPaper = QuestionPaper::factory()->create();
 
     expect($questionPaper->subject())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class)
         ->and($questionPaper->subject)->toBeInstanceOf(Subject::class);
 });
 
-test('question paper can access its relationships', function () {
+test('question paper can access its relationships', function (): void {
     $university = University::factory()->create(['name' => 'Test University']);
     $program = Program::factory()->create(['name' => 'Test Program']);
     $subject = Subject::factory()->create([

@@ -9,12 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Models\University
- *
  * @property int $id
  * @property string $name
  * @property string $label
- * @property Carbon|null $created_at
+ * @property Carbon $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  */
@@ -28,9 +26,6 @@ class University extends Model
      */
     public $guarded = [];
 
-    /**
-     * @return BelongsToMany
-     */
     public function programs(): BelongsToMany
     {
         return $this->belongsToMany(

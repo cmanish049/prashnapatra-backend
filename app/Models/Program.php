@@ -9,12 +9,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Models\Program
- *
  * @property int $id
  * @property string $name
- * @property string $label
- * @property Carbon|null $created_at
+ * @property string $abbreviation
+ * @property Carbon $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  */
@@ -27,9 +25,6 @@ class Program extends Model
      */
     public $guarded = [];
 
-    /**
-     * @return BelongsToMany
-     */
     public function universities(): BelongsToMany
     {
         return $this->belongsToMany(
@@ -38,9 +33,6 @@ class Program extends Model
         );
     }
 
-    /**
-     * @return HasMany
-     */
     public function subjects(): HasMany
     {
         return $this->hasMany(Subject::class);

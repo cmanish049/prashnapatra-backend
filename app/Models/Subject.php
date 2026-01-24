@@ -8,8 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- * App\Models\Subject
- *
  * @property int $id
  * @property string $name
  * @property int $university_id
@@ -17,8 +15,8 @@ use Illuminate\Support\Carbon;
  * @property int $semester
  * @property int $credit
  * @property string $code
- * @property string $syllabus_url
- * @property Carbon|null $created_at
+ * @property string|null $syllabus_url
+ * @property Carbon $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  */
@@ -31,17 +29,11 @@ class Subject extends Model
      */
     protected $guarded = [];
 
-    /**
-     * @return BelongsTo
-     */
     public function university(): BelongsTo
     {
         return $this->belongsTo(University::class);
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function program(): BelongsTo
     {
         return $this->belongsTo(Program::class);

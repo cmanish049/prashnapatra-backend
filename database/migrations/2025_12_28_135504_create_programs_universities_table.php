@@ -10,7 +10,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('programs_universities', function (Blueprint $table) {
+        Schema::create('programs_universities', function (Blueprint $table): void {
             $table->id();
             $table->unsignedBiginteger('program_id')->unsigned();
             $table->unsignedBiginteger('university_id')->unsigned();

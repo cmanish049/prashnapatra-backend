@@ -10,11 +10,11 @@ use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->user = User::factory()->create();
 });
 
-test('program importer has correct columns defined', function () {
+test('program importer has correct columns defined', function (): void {
     $columns = ProgramImporter::getColumns();
 
     expect($columns)->toHaveCount(2);
@@ -22,7 +22,7 @@ test('program importer has correct columns defined', function () {
     expect($columns[1])->toBeInstanceOf(ImportColumn::class);
 });
 
-test('program importer uses name for matching existing records', function () {
+test('program importer uses name for matching existing records', function (): void {
     $existingProgram = Program::factory()->create([
         'name' => 'Bachelor of Technology',
         'abbreviation' => 'B.Tech',
@@ -49,7 +49,7 @@ test('program importer uses name for matching existing records', function () {
     expect($record->id)->toBe($existingProgram->id);
 });
 
-test('program importer creates new record for non-existing name', function () {
+test('program importer creates new record for non-existing name', function (): void {
     $import = Import::create([
         'user_id' => $this->user->id,
         'importer' => ProgramImporter::class,
@@ -71,7 +71,7 @@ test('program importer creates new record for non-existing name', function () {
     expect($record->name)->toBe('Master of Science');
 });
 
-test('list programs page has import action', function () {
+test('list programs page has import action', function (): void {
     actingAs($this->user);
 
     Livewire::test(ListPrograms::class)

@@ -244,7 +244,7 @@ class SubjectSeeder extends Seeder
         $university = University::where('name', 'Tribhuwan University')->first();
         $program = Program::where('abbreviation', 'BCA')->first();
 
-        $subjects = array_map(function ($subject) use ($university, $program) {
+        $subjects = array_map(function (array $subject) use ($university, $program): array {
             $subject['university_id'] = $university->id;
             $subject['program_id'] = $program->id;
             $subject['created_at'] = now();

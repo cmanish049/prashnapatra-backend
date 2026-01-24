@@ -5,14 +5,14 @@ use App\Models\Subject;
 use App\Models\University;
 use Illuminate\Database\Eloquent\Collection;
 
-test('program can be created with factory', function () {
+test('program can be created with factory', function (): void {
     $program = Program::factory()->create();
 
     expect($program)->toBeInstanceOf(Program::class)
         ->and($program->exists)->toBeTrue();
 });
 
-test('program has required attributes', function () {
+test('program has required attributes', function (): void {
     $program = Program::factory()->create([
         'name' => 'Bachelor of Computer Science',
         'abbreviation' => 'BCS',
@@ -22,14 +22,14 @@ test('program has required attributes', function () {
         ->and($program->abbreviation)->toBe('BCS');
 });
 
-test('program has universities relationship', function () {
+test('program has universities relationship', function (): void {
     $program = Program::factory()->create();
 
     expect($program->universities())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsToMany::class)
         ->and($program->universities)->toBeInstanceOf(Collection::class);
 });
 
-test('program can belong to many universities', function () {
+test('program can belong to many universities', function (): void {
     $program = Program::factory()->create();
     $universities = University::factory()->count(2)->create();
 
@@ -39,14 +39,14 @@ test('program can belong to many universities', function () {
         ->and($program->universities->first())->toBeInstanceOf(University::class);
 });
 
-test('program has subjects relationship', function () {
+test('program has subjects relationship', function (): void {
     $program = Program::factory()->create();
 
     expect($program->subjects())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\HasMany::class)
         ->and($program->subjects)->toBeInstanceOf(Collection::class);
 });
 
-test('program can have many subjects', function () {
+test('program can have many subjects', function (): void {
     $university = University::factory()->create();
     $program = Program::factory()->create();
 

@@ -4,14 +4,14 @@ use App\Models\Program;
 use App\Models\Subject;
 use App\Models\University;
 
-test('it returns empty list when no subjects exist', function () {
-    $response = $this->getJson(route('api.v1.subjects.index'));
-
-    $response->assertSuccessful()
+test('it returns empty list when no subjects exist', function (): void {
+    $this->withApiKey()
+        ->getJson(route('api.v1.subjects.index'))
+        ->assertSuccessful()
         ->assertJsonCount(0, 'data');
 });
 
-test('it can list all subjects with university and program', function () {
+test('it can list all subjects with university and program', function (): void {
     $university = University::factory()->create();
     $program = Program::factory()->create();
     $subject = Subject::factory()->create([
@@ -19,9 +19,9 @@ test('it can list all subjects with university and program', function () {
         'program_id' => $program->id,
     ]);
 
-    $response = $this->getJson(route('api.v1.subjects.index'));
-
-    $response->assertSuccessful()
+    $this->withApiKey()
+        ->getJson(route('api.v1.subjects.index'))
+        ->assertSuccessful()
         ->assertJsonCount(1, 'data')
         ->assertJsonFragment([
             'subject_id' => $subject->id,
@@ -47,7 +47,7 @@ test('it can list all subjects with university and program', function () {
         ]);
 });
 
-test('it paginates subjects at 20 per page', function () {
+test('it paginates subjects at 20 per page', function (): void {
     $university = University::factory()->create();
     $program = Program::factory()->create();
     Subject::factory()->count(25)->create([
@@ -55,14 +55,14 @@ test('it paginates subjects at 20 per page', function () {
         'program_id' => $program->id,
     ]);
 
-    $response = $this->getJson(route('api.v1.subjects.index'));
-
-    $response->assertSuccessful()
+    $this->withApiKey()
+        ->getJson(route('api.v1.subjects.index'))
+        ->assertSuccessful()
         ->assertJsonCount(20, 'data')
         ->assertJsonPath('meta.per_page', 20);
 });
 
-test('it can navigate to second page of subjects', function () {
+test('it can navigate to second page of subjects', function (): void {
     $university = University::factory()->create();
     $program = Program::factory()->create();
     Subject::factory()->count(25)->create([
@@ -70,9 +70,9 @@ test('it can navigate to second page of subjects', function () {
         'program_id' => $program->id,
     ]);
 
-    $response = $this->getJson(route('api.v1.subjects.index', ['page' => 2]));
-
-    $response->assertSuccessful()
+    $this->withApiKey()
+        ->getJson(route('api.v1.subjects.index', ['page' => 2]))
+        ->assertSuccessful()
         ->assertJsonCount(5, 'data')
         ->assertJsonPath('meta.current_page', 2);
 });

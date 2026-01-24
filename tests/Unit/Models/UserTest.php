@@ -2,14 +2,14 @@
 
 use App\Models\User;
 
-test('user can be created with factory', function () {
+test('user can be created with factory', function (): void {
     $user = User::factory()->create();
 
     expect($user)->toBeInstanceOf(User::class)
         ->and($user->exists)->toBeTrue();
 });
 
-test('user has fillable attributes', function () {
+test('user has fillable attributes', function (): void {
     $user = User::factory()->create([
         'name' => 'John Doe',
         'email' => 'john@example.com',
@@ -19,16 +19,16 @@ test('user has fillable attributes', function () {
         ->and($user->email)->toBe('john@example.com');
 });
 
-test('user password is hashed', function () {
+test('user password is hashed', function (): void {
     $user = User::factory()->create([
         'password' => 'plain-password',
     ]);
 
     expect($user->password)->not->toBe('plain-password')
-        ->and(password_verify('plain-password', $user->password))->toBeTrue();
+        ->and(password_verify('plain-password', (string) $user->password))->toBeTrue();
 });
 
-test('user hides sensitive attributes', function () {
+test('user hides sensitive attributes', function (): void {
     $user = User::factory()->create();
 
     $array = $user->toArray();
@@ -37,7 +37,7 @@ test('user hides sensitive attributes', function () {
         ->and($array)->not->toHaveKey('remember_token');
 });
 
-test('user casts email_verified_at to datetime', function () {
+test('user casts email_verified_at to datetime', function (): void {
     $user = User::factory()->create([
         'email_verified_at' => now(),
     ]);

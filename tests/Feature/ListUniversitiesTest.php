@@ -2,10 +2,10 @@
 
 use App\Models\University;
 
-test('it can fetch empty list of universities', function () {
-    $response = $this->getJson(route('api.v1.universities.index'));
-
-    $response->assertSuccessful()
+test('it can fetch empty list of universities', function (): void {
+    $this->withApiKey()
+        ->getJson(route('api.v1.universities.index'))
+        ->assertSuccessful()
         ->assertJson([
             'status' => 'success',
             'error' => false,
@@ -13,12 +13,12 @@ test('it can fetch empty list of universities', function () {
         ->assertJsonCount(0, 'data');
 });
 
-test('it can list universities', function () {
+test('it can list universities', function (): void {
     $university = University::factory()->create();
 
-    $response = $this->getJson(route('api.v1.universities.index'));
-
-    $response->assertSuccessful()
+    $this->withApiKey()
+        ->getJson(route('api.v1.universities.index'))
+        ->assertSuccessful()
         ->assertJson([
             'status' => 'success',
             'error' => false,
