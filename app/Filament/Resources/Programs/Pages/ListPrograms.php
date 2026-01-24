@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\Programs\Pages;
 
+use App\Filament\Imports\ProgramImporter;
 use App\Filament\Resources\Programs\ProgramResource;
 use Filament\Actions\CreateAction;
+use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListPrograms extends ListRecords
@@ -13,6 +15,8 @@ class ListPrograms extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            ImportAction::make()
+                ->importer(ProgramImporter::class),
             CreateAction::make(),
         ];
     }

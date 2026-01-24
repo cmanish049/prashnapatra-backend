@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -35,5 +36,13 @@ class Program extends Model
             University::class,
             'programs_universities'
         );
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function subjects(): HasMany
+    {
+        return $this->hasMany(Subject::class);
     }
 }
