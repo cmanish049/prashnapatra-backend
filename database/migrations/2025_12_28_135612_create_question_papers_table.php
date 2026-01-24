@@ -10,7 +10,7 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('question_papers', function (Blueprint $table) {
+        Schema::create('question_papers', function (Blueprint $table): void {
             $table->id();
             $table->unsignedBigInteger('subject_id');
             $table->unsignedBigInteger('university_id');

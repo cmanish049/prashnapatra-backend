@@ -3,12 +3,12 @@
 use App\Models\Program;
 use App\Models\University;
 
-test('it returns empty list when university has no programs', function () {
+test('it returns empty list when university has no programs', function (): void {
     $university = University::factory()->create();
 
-    $response = $this->getJson(route('api.v1.universities.programs.index', $university));
-
-    $response->assertSuccessful()
+    $this->withApiKey()
+        ->getJson(route('api.v1.universities.programs.index', $university))
+        ->assertSuccessful()
         ->assertJson([
             'status' => 'success',
             'error' => false,
@@ -16,14 +16,14 @@ test('it returns empty list when university has no programs', function () {
         ->assertJsonCount(0, 'data');
 });
 
-test('it can list programs for a university', function () {
+test('it can list programs for a university', function (): void {
     $university = University::factory()->create();
     $program = Program::factory()->create();
     $university->programs()->attach($program);
 
-    $response = $this->getJson(route('api.v1.universities.programs.index', $university));
-
-    $response->assertSuccessful()
+    $this->withApiKey()
+        ->getJson(route('api.v1.universities.programs.index', $university))
+        ->assertSuccessful()
         ->assertJson([
             'status' => 'success',
             'error' => false,
@@ -36,10 +36,10 @@ test('it can list programs for a university', function () {
         ]);
 });
 
-test('it returns 404 for non-existent university', function () {
-    $response = $this->getJson(route('api.v1.universities.programs.index', ['universityId' => 999]));
-
-    $response->assertNotFound()
+test('it returns 404 for non-existent university', function (): void {
+    $this->withApiKey()
+        ->getJson(route('api.v1.universities.programs.index', ['universityId' => 999]))
+        ->assertNotFound()
         ->assertJson([
             'status' => 'error',
             'error' => true,
@@ -47,7 +47,7 @@ test('it returns 404 for non-existent university', function () {
         ]);
 });
 
-test('it only returns programs associated with the specified university', function () {
+test('it only returns programs associated with the specified university', function (): void {
     $university1 = University::factory()->create();
     $university2 = University::factory()->create();
 
@@ -57,9 +57,9 @@ test('it only returns programs associated with the specified university', functi
     $university1->programs()->attach($program1);
     $university2->programs()->attach($program2);
 
-    $response = $this->getJson(route('api.v1.universities.programs.index', $university1));
-
-    $response->assertSuccessful()
+    $this->withApiKey()
+        ->getJson(route('api.v1.universities.programs.index', $university1))
+        ->assertSuccessful()
         ->assertJson([
             'status' => 'success',
             'error' => false,

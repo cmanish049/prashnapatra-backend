@@ -21,7 +21,7 @@ class QuestionPaperForm
                     ->options(University::query()->pluck('name', 'id'))
                     ->required()
                     ->live()
-                    ->afterStateUpdated(function (Set $set) {
+                    ->afterStateUpdated(function (Set $set): void {
                         $set('program_id', null);
                         $set('semester', null);
                         $set('subject_id', null);
@@ -41,8 +41,8 @@ class QuestionPaperForm
                     })
                     ->required()
                     ->live()
-                    ->disabled(fn (Get $get) => ! $get('university_id'))
-                    ->afterStateUpdated(function (Set $set) {
+                    ->disabled(fn (Get $get): bool => ! $get('university_id'))
+                    ->afterStateUpdated(function (Set $set): void {
                         $set('semester', null);
                         $set('subject_id', null);
                     }),
@@ -60,13 +60,13 @@ class QuestionPaperForm
                             ->where('program_id', $programId)
                             ->distinct()
                             ->pluck('semester', 'semester')
-                            ->mapWithKeys(fn ($value) => [$value => "Semester $value"])
+                            ->mapWithKeys(fn ($value): array => [$value => "Semester $value"])
                             ->toArray();
                     })
                     ->required()
                     ->live()
-                    ->disabled(fn (Get $get) => ! $get('program_id'))
-                    ->afterStateUpdated(fn (Set $set) => $set('subject_id', null)),
+                    ->disabled(fn (Get $get): bool => ! $get('program_id'))
+                    ->afterStateUpdated(fn (Set $set): mixed => $set('subject_id', null)),
 
                 Select::make('subject_id')
                     ->label('Subject')
@@ -85,7 +85,7 @@ class QuestionPaperForm
                             ->pluck('name', 'id');
                     })
                     ->required()
-                    ->disabled(fn (Get $get) => ! $get('semester')),
+                    ->disabled(fn (Get $get): bool => ! $get('semester')),
 
                 TextInput::make('year')
                     ->required(),

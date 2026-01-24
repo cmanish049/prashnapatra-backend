@@ -23,21 +23,25 @@ class UniversityResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    #[\Override]
     public static function form(Schema $schema): Schema
     {
         return UniversityForm::configure($schema);
     }
 
+    #[\Override]
     public static function infolist(Schema $schema): Schema
     {
         return UniversityInfolist::configure($schema);
     }
 
+    #[\Override]
     public static function table(Table $table): Table
     {
         return UniversitiesTable::configure($table);
     }
 
+    #[\Override]
     public static function getRelations(): array
     {
         return [
