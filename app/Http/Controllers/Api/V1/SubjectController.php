@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\ListSubjectsRequest;
 use App\Http\Resources\Api\V1\SubjectResource;
 use App\Models\Program;
 use App\Models\Subject;
@@ -12,13 +13,24 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 class SubjectController extends Controller
 {
     /**
-     * List all subjects with pagination.
+     * List all subjects with pagination and optional filters.
      */
-    public function __invoke(): JsonResponse
+    public function __invoke(ListSubjectsRequest $request): JsonResponse
     {
+        $perPage = $request->input('perPage', 20);
+
         $subjects = Subject::query()
             ->with(['university', 'program'])
-            ->simplePaginate(20);
+            ->when($request->filled('university'), function ($query) use ($request) {
+                $query->where('university_id', $request->input('university'));
+            })
+            ->when($request->filled('program'), function ($query) use ($request) {
+                $query->where('program_id', $request->input('program'));
+            })
+            ->when($request->filled('semester'), function ($query) use ($request) {
+                $query->where('semester', $request->input('semester'));
+            })
+            ->simplePaginate($perPage);
 
         return response()->json([
             'status' => 'success',
