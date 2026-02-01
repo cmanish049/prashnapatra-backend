@@ -7,7 +7,7 @@ use App\Http\Resources\Api\V1\UniversityResource;
 use App\Models\University;
 use Illuminate\Http\JsonResponse;
 
-class UniversityController extends Controller
+class ListUniversitiesController extends Controller
 {
     /**
      * Handle the incoming request.
