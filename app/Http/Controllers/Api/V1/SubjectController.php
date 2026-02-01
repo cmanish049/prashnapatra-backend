@@ -21,13 +21,13 @@ class SubjectController extends Controller
 
         $subjects = Subject::query()
             ->with(['university', 'program'])
-            ->when($request->filled('university'), function ($query) use ($request) {
+            ->when($request->filled('university'), function ($query) use ($request): void {
                 $query->where('university_id', $request->input('university'));
             })
-            ->when($request->filled('program'), function ($query) use ($request) {
+            ->when($request->filled('program'), function ($query) use ($request): void {
                 $query->where('program_id', $request->input('program'));
             })
-            ->when($request->filled('semester'), function ($query) use ($request) {
+            ->when($request->filled('semester'), function ($query) use ($request): void {
                 $query->where('semester', $request->input('semester'));
             })
             ->simplePaginate($perPage);
