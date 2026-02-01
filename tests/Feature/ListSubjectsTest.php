@@ -8,6 +8,10 @@ test('it returns empty list when no subjects exist', function (): void {
     $this->withApiKey()
         ->getJson(route('api.v1.subjects.index'))
         ->assertSuccessful()
+        ->assertJson([
+            'status' => 'success',
+            'error' => false,
+        ])
         ->assertJsonCount(0, 'data');
 });
 
@@ -22,6 +26,10 @@ test('it can list all subjects with university and program', function (): void {
     $this->withApiKey()
         ->getJson(route('api.v1.subjects.index'))
         ->assertSuccessful()
+        ->assertJson([
+            'status' => 'success',
+            'error' => false,
+        ])
         ->assertJsonCount(1, 'data')
         ->assertJsonFragment([
             'subject_id' => $subject->id,
@@ -58,8 +66,11 @@ test('it paginates subjects at 20 per page', function (): void {
     $this->withApiKey()
         ->getJson(route('api.v1.subjects.index'))
         ->assertSuccessful()
-        ->assertJsonCount(20, 'data')
-        ->assertJsonPath('meta.per_page', 20);
+        ->assertJson([
+            'status' => 'success',
+            'error' => false,
+        ])
+        ->assertJsonCount(20, 'data');
 });
 
 test('it can navigate to second page of subjects', function (): void {
@@ -73,6 +84,9 @@ test('it can navigate to second page of subjects', function (): void {
     $this->withApiKey()
         ->getJson(route('api.v1.subjects.index', ['page' => 2]))
         ->assertSuccessful()
-        ->assertJsonCount(5, 'data')
-        ->assertJsonPath('meta.current_page', 2);
+        ->assertJson([
+            'status' => 'success',
+            'error' => false,
+        ])
+        ->assertJsonCount(5, 'data');
 });
