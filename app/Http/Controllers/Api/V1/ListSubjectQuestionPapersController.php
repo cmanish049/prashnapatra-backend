@@ -8,6 +8,7 @@ use App\Models\QuestionPaper;
 use App\Models\Subject;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ListSubjectQuestionPapersController extends Controller
 {
@@ -23,7 +24,7 @@ class ListSubjectQuestionPapersController extends Controller
                 'status' => 'error',
                 'error' => true,
                 'message' => 'Subject not found',
-            ], 404);
+            ], Response::HTTP_NOT_FOUND);
         }
 
         $perPage = $request->input('perPage', 20);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\SubjectResource;
 use App\Models\Subject;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class ShowSubjectController extends Controller
 {
@@ -23,7 +24,7 @@ class ShowSubjectController extends Controller
                 'status' => 'error',
                 'error' => true,
                 'message' => 'Subject not found',
-            ], 404);
+            ], Response::HTTP_NOT_FOUND);
         }
 
         return response()->json([

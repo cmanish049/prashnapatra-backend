@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\V1\ProgramResource;
 use App\Models\University;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class ListUniversityProgramsController extends Controller
 {
@@ -21,7 +22,7 @@ class ListUniversityProgramsController extends Controller
                 'status' => 'error',
                 'error' => true,
                 'message' => 'University not found',
-            ], 404);
+            ], Response::HTTP_NOT_FOUND);
         }
 
         return response()->json([
