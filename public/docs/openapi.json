@@ -241,6 +241,74 @@
           }
         }
       }
+    },
+    "/subjects/{subjectId}": {
+      "get": {
+        "tags": ["Subjects"],
+        "summary": "Get subject details",
+        "description": "Returns detailed information about a specific subject including its university and program",
+        "operationId": "showSubject",
+        "parameters": [
+          {
+            "name": "subjectId",
+            "in": "path",
+            "description": "ID of the subject",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/AcceptEncoding"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "error": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/SubjectWithRelations"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Subject not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
