@@ -4,11 +4,10 @@ use App\Http\Controllers\Api\V1\ListSubjectQuestionPapersController;
 use App\Http\Controllers\Api\V1\ListSubjectsController;
 use App\Http\Controllers\Api\V1\ListUniversitiesController;
 use App\Http\Controllers\Api\V1\ListUniversityProgramsController;
-use App\Http\Controllers\Api\V1\ProgramController;
 use App\Http\Controllers\Api\V1\ShowSubjectController;
 
 Route::prefix('v1')->as('api.v1.')
-    ->middleware(['api.key', 'gzip'])
+    ->middleware(['api.key', 'throttle:api', 'gzip'])
     ->group(function (): void {
         Route::get('universities', ListUniversitiesController::class)
             ->name('universities.index');
