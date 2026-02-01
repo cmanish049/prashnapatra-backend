@@ -309,6 +309,99 @@
           }
         }
       }
+    },
+    "/subjects/{subjectId}/question-papers": {
+      "get": {
+        "tags": ["Question Papers"],
+        "summary": "List question papers for a subject",
+        "description": "Returns a paginated list of question papers for a specific subject, ordered by year descending",
+        "operationId": "listSubjectQuestionPapers",
+        "parameters": [
+          {
+            "name": "subjectId",
+            "in": "path",
+            "description": "ID of the subject",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "Number of items per page (default: 20, max: 100)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "$ref": "#/components/parameters/AcceptEncoding"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "error": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QuestionPaper"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Subject not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -396,6 +489,35 @@
             }
           }
         ]
+      },
+      "QuestionPaper": {
+        "type": "object",
+        "properties": {
+          "question_paper_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "subject_id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "year": {
+            "type": "integer",
+            "example": 2023
+          },
+          "file_path": {
+            "type": "string",
+            "nullable": true,
+            "example": "papers/2023/csc201.pdf"
+          },
+          "file_url": {
+            "type": "string",
+            "nullable": true,
+            "example": "https://example.com/papers/2023/csc201.pdf"
+          }
+        }
       },
       "PaginationLinks": {
         "type": "object",
