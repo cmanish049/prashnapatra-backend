@@ -87,8 +87,8 @@ test('compressed response is smaller than original', function (): void {
         ->withHeader('Accept-Encoding', 'gzip')
         ->get(route('api.v1.universities.index'));
 
-    $originalSize = strlen($uncompressedResponse->getContent());
-    $compressedSize = strlen($compressedResponse->getContent());
+    $originalSize = strlen((string) $uncompressedResponse->getContent());
+    $compressedSize = strlen((string) $compressedResponse->getContent());
 
     expect($compressedSize)->toBeLessThan($originalSize);
 });

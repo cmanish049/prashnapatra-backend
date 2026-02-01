@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GzipResponse
 {
-    private const MIN_COMPRESS_SIZE = 1024;
+    private const int MIN_COMPRESS_SIZE = 1024;
 
     /**
      * Handle an incoming request.
@@ -53,11 +53,6 @@ class GzipResponse
         if (! str_contains($request->header('Accept-Encoding', ''), 'gzip')) {
             return false;
         }
-
-        if ($response->headers->has('Content-Encoding')) {
-            return false;
-        }
-
-        return true;
+        return !$response->headers->has('Content-Encoding');
     }
 }
