@@ -15,6 +15,10 @@ class ValidateApiKey
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if ($request->isMethod('OPTIONS')) {
+            return $next($request);
+        }
+
         $apiKey = $request->header('X-API-Key');
 
         if (! $apiKey || ! $this->isValidKey($apiKey)) {

@@ -22,6 +22,12 @@ test('it rejects requests with invalid api key', function (): void {
         ]);
 });
 
+test('it allows OPTIONS preflight requests without api key', function (): void {
+    $this->withoutHeader('X-API-Key')
+        ->options(route('api.v1.universities.index'))
+        ->assertOk();
+});
+
 test('it accepts requests with valid api key', function (): void {
     $this->withApiKey()
         ->getJson(route('api.v1.universities.index'))
