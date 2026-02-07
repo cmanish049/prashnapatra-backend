@@ -35,6 +35,7 @@ test('it can list all subjects with university and program', function (): void {
             'subject_id' => $subject->id,
             'name' => $subject->name,
             'code' => $subject->code,
+            'description' => $subject->description,
             'semester' => $subject->semester,
             'credit' => $subject->credit,
             'syllabus_url' => $subject->syllabus_url,

@@ -623,6 +623,11 @@
             "type": "string",
             "example": "CSC201"
           },
+          "description": {
+            "type": "string",
+            "default": "",
+            "example": "Introduction to data structures and algorithms"
+          },
           "semester": {
             "type": "integer",
             "example": 3

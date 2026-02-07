@@ -26,6 +26,7 @@ class SubjectFactory extends Factory
             'semester' => fake()->numberBetween(1, 8),
             'credit' => fake()->numberBetween(1, 5),
             'code' => strtoupper(fake()->lexify('???')) . fake()->numerify('###'),
+            'description' => fake()->sentence(),
             'syllabus_url' => fake()->url(),
         ];
     }

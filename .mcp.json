@@ -15,6 +15,26 @@
             "env": {
                 "SITE_PATH": "/Users/manish/Sites/oldisgold"
             }
+        },
+        "playwright": {
+            "command": "npx",
+            "args": [
+                "@playwright/mcp@latest"
+            ]
+        },
+        "mysql": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "@benborla29/mcp-server-mysql"
+            ],
+            "env": {
+                "MYSQL_HOST": "127.0.0.1",
+                "MYSQL_PORT": "3306",
+                "MYSQL_USER": "root",
+                "MYSQL_PASSWORD": "",
+                "MYSQL_DATABASE": "oldisgold"
+            }
         }
     }
 }

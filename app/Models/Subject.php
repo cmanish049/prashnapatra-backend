@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
  * @property int $semester
  * @property int $credit
  * @property string $code
+ * @property string $description
  * @property string|null $syllabus_url
  * @property Carbon $created_at
  * @property Carbon|null $updated_at

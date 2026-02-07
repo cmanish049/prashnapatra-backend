@@ -18,6 +18,9 @@ class SubjectsTable
                     ->searchable(),
                 TextColumn::make('code')
                     ->searchable(),
+                TextColumn::make('description')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('semester')
                     ->numeric()
                     ->sortable(),

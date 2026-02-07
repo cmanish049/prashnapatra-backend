@@ -16,6 +16,7 @@ class SubjectForm
                     ->required(),
                 TextInput::make('code')
                     ->required(),
+                TextInput::make('description'),
                 TextInput::make('semester')
                     ->required()
                     ->numeric(),
