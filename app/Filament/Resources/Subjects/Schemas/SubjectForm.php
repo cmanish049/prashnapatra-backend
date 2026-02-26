@@ -26,7 +26,7 @@ class SubjectForm
                     ->default(0),
                 TextInput::make('syllabus_url')
                     ->url()
-                    ->required(),
+                    ->nullable(),
                 Select::make('university_id')
                     ->relationship('university', 'name')
                     ->required()
