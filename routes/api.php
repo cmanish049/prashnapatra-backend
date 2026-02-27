@@ -5,6 +5,23 @@ use App\Http\Controllers\Api\V1\ListSubjectsController;
 use App\Http\Controllers\Api\V1\ListUniversitiesController;
 use App\Http\Controllers\Api\V1\ListUniversityProgramsController;
 use App\Http\Controllers\Api\V1\ShowSubjectController;
+use Illuminate\Support\Facades\DB;
+
+Route::get('health', function () {
+    try {
+        DB::connection()->getPdo();
+        $dbStatus = true;
+    } catch (\Throwable) {
+        $dbStatus = false;
+    }
+
+    $status = $dbStatus ? 'healthy' : 'unhealthy';
+
+    return response()->json([
+        'status' => $status,
+        'database' => $dbStatus,
+    ], $dbStatus ? 200 : 503);
+})->name('api.health');
 
 Route::prefix('v1')->as('api.v1.')
     ->middleware(['api.key', 'throttle:api', 'gzip'])
