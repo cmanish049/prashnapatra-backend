@@ -24,7 +24,7 @@ Route::get('health', function () {
 })->name('api.health');
 
 Route::prefix('v1')->as('api.v1.')
-    ->middleware(['api.key', 'throttle:api', 'gzip'])
+    ->middleware(['api.key', 'gzip'])
     ->group(function (): void {
         Route::get('universities', ListUniversitiesController::class)
             ->name('universities.index');
