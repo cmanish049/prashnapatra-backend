@@ -38,6 +38,14 @@ class ListSubjectQuestionPapersController extends Controller
             'status' => 'success',
             'error' => false,
             'data' => SubjectQuestionPaperResource::collection($questionPapers),
+            'pagination' => [
+                'count' => $questionPapers->count(),
+                'per_page' => $questionPapers->perPage(),
+                'current_page' => $questionPapers->currentPage(),
+                'has_more_pages' => $questionPapers->hasMorePages(),
+                'next_page_url' => $questionPapers->nextPageUrl(),
+                'prev_page_url' => $questionPapers->previousPageUrl(),
+            ],
         ]);
     }
 }

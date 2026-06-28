@@ -77,6 +77,46 @@ test('it paginates question papers at 20 per page', function (): void {
         ->assertJsonCount(20, 'data');
 });
 
+test('it includes pagination metadata in the response', function (): void {
+    $subject = Subject::factory()->create();
+
+    QuestionPaper::factory()->count(25)->create([
+        'subject_id' => $subject->id,
+    ]);
+
+    $this->withApiKey()
+        ->getJson(route('api.v1.subjects.question-papers.index', ['subjectId' => $subject->id]))
+        ->assertSuccessful()
+        ->assertJson([
+            'pagination' => [
+                'count' => 20,
+                'per_page' => 20,
+                'current_page' => 1,
+                'has_more_pages' => true,
+            ],
+        ])
+        ->assertJsonPath('pagination.prev_page_url', null)
+        ->assertJsonPath('pagination.next_page_url', fn ($url): bool => is_string($url) && str_contains($url, 'page=2'));
+});
+
+test('it can navigate to the second page of question papers', function (): void {
+    $subject = Subject::factory()->create();
+
+    QuestionPaper::factory()->count(25)->create([
+        'subject_id' => $subject->id,
+    ]);
+
+    $this->withApiKey()
+        ->getJson(route('api.v1.subjects.question-papers.index', [
+            'subjectId' => $subject->id,
+            'page' => 2,
+        ]))
+        ->assertSuccessful()
+        ->assertJsonCount(5, 'data')
+        ->assertJsonPath('pagination.current_page', 2)
+        ->assertJsonPath('pagination.has_more_pages', false);
+});
+
 test('it can customize perPage parameter', function (): void {
     $subject = Subject::factory()->create();
 

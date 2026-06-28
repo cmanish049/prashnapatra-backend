@@ -289,6 +289,9 @@
                       "items": {
                         "$ref": "#/components/schemas/SubjectWithRelations"
                       }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
                     }
                   }
                 }
@@ -506,6 +509,9 @@
                       "items": {
                         "$ref": "#/components/schemas/QuestionPaper"
                       }
+                    },
+                    "pagination": {
+                      "$ref": "#/components/schemas/Pagination"
                     }
                   }
                 }
@@ -689,51 +695,41 @@
           }
         }
       },
-      "PaginationLinks": {
+      "Pagination": {
         "type": "object",
+        "description": "Simple pagination metadata. Total and last page are not provided because the endpoints use simple pagination.",
         "properties": {
-          "first": {
-            "type": "string",
-            "example": "/api/v1/subjects?page=1"
-          },
-          "last": {
-            "type": "string",
-            "example": "/api/v1/subjects?page=5"
-          },
-          "prev": {
-            "type": "string",
-            "nullable": true,
-            "example": null
-          },
-          "next": {
-            "type": "string",
-            "nullable": true,
-            "example": "/api/v1/subjects?page=2"
-          }
-        }
-      },
-      "PaginationMeta": {
-        "type": "object",
-        "properties": {
-          "current_page": {
+          "count": {
             "type": "integer",
-            "example": 1
-          },
-          "from": {
-            "type": "integer",
-            "example": 1
+            "description": "Number of items on the current page",
+            "example": 20
           },
           "per_page": {
             "type": "integer",
+            "description": "Number of items requested per page",
             "example": 20
           },
-          "to": {
+          "current_page": {
             "type": "integer",
-            "example": 20
+            "description": "The current page number",
+            "example": 1
           },
-          "path": {
+          "has_more_pages": {
+            "type": "boolean",
+            "description": "Whether there are more pages after the current one",
+            "example": true
+          },
+          "next_page_url": {
             "type": "string",
-            "example": "/api/v1/subjects"
+            "nullable": true,
+            "description": "URL to the next page, or null if on the last page",
+            "example": "/api/v1/subjects?page=2"
+          },
+          "prev_page_url": {
+            "type": "string",
+            "nullable": true,
+            "description": "URL to the previous page, or null if on the first page",
+            "example": null
           }
         }
       },

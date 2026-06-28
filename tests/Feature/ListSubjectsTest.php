@@ -89,7 +89,32 @@ test('it can navigate to second page of subjects', function (): void {
             'status' => 'success',
             'error' => false,
         ])
-        ->assertJsonCount(5, 'data');
+        ->assertJsonCount(5, 'data')
+        ->assertJsonPath('pagination.current_page', 2)
+        ->assertJsonPath('pagination.has_more_pages', false);
+});
+
+test('it includes pagination metadata in the response', function (): void {
+    $university = University::factory()->create();
+    $program = Program::factory()->create();
+    Subject::factory()->count(25)->create([
+        'university_id' => $university->id,
+        'program_id' => $program->id,
+    ]);
+
+    $this->withApiKey()
+        ->getJson(route('api.v1.subjects.index'))
+        ->assertSuccessful()
+        ->assertJson([
+            'pagination' => [
+                'count' => 20,
+                'per_page' => 20,
+                'current_page' => 1,
+                'has_more_pages' => true,
+            ],
+        ])
+        ->assertJsonPath('pagination.prev_page_url', null)
+        ->assertJsonPath('pagination.next_page_url', fn ($url): bool => is_string($url) && str_contains($url, 'page=2'));
 });
 
 test('it can filter subjects by university', function (): void {

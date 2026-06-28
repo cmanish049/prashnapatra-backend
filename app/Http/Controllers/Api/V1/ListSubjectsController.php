@@ -7,7 +7,6 @@ use App\Http\Requests\Api\V1\ListSubjectsRequest;
 use App\Http\Resources\Api\V1\SubjectResource;
 use App\Models\Subject;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ListSubjectsController extends Controller
 {
@@ -35,6 +34,14 @@ class ListSubjectsController extends Controller
             'status' => 'success',
             'error' => false,
             'data' => SubjectResource::collection($subjects),
+            'pagination' => [
+                'count' => $subjects->count(),
+                'per_page' => $subjects->perPage(),
+                'current_page' => $subjects->currentPage(),
+                'has_more_pages' => $subjects->hasMorePages(),
+                'next_page_url' => $subjects->nextPageUrl(),
+                'prev_page_url' => $subjects->previousPageUrl(),
+            ],
         ]);
     }
 }
